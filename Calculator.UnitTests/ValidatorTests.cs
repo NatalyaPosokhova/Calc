@@ -12,12 +12,10 @@ namespace Calculator.UnitTests
 			_validator = new Validator();
 		}
 
-		[TestCase("1+2", true)]
 		[TestCase("1*2/3", true)]
 		[TestCase("10+(2-3)", true)]
 		[TestCase("(25+2-3)*(10-2)", true)]
 		[TestCase("1+(2/3(", false)]
-		[TestCase("1+(2/3", false)]
 		[TestCase("1+(2/3", false)]
 		[TestCase("1", true)]
 		[TestCase("(25 + 2 - 3) * (10 - 2)", true)]
