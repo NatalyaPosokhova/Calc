@@ -5,7 +5,29 @@ namespace Calculator
 	{
 		public Expression FindInnerExpression(string exp)
 		{
-			throw new NotImplementedException();
+			var startIndex = 0;
+			var endIndex = exp.Length - 1;
+
+			for (int i = 0; i < exp.Length; i++)
+			{
+				if (exp[i] == Constants.OpenedBrace)
+				{
+					startIndex = i + 1;
+					continue;
+				}
+
+				if (exp[i] == Constants.ClosedBrace)
+				{
+					endIndex = i - 1;
+					break;
+				}
+			}
+
+			return new Expression
+			{
+				StartIndex = startIndex,
+				EndIndex = endIndex
+			};
 		}
 	}
 }
