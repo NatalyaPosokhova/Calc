@@ -2,6 +2,6 @@
 {
     public interface IParser
     {
-
+        public Expression FindInnerExpression(string exp);
     }
 }
