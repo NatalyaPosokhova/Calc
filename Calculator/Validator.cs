@@ -5,10 +5,10 @@ using System.Text.RegularExpressions;
 
 namespace Calculator
 {
-	public class Validator : IValidator
+	public static class Validator
 	{
 
-		public bool ValidateExpression(string exp)
+		public static bool ValidateExpression(string exp)
 		{
 			var operatorsNumChecker = new OperatorsNumChecker(null);
 			var bracesChecker = new BracesChecker(operatorsNumChecker);
