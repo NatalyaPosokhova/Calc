@@ -3,7 +3,7 @@ namespace Calculator
 {
 	public class Parser : IParser
 	{
-		public Expression FindInnerExpression(string exp)
+		public Expression GetInnerExpressionWithoutBraces(string exp)
 		{
 			var startIndex = 0;
 			var endIndex = exp.Length - 1;
