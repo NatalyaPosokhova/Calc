@@ -15,7 +15,7 @@ namespace Calculator.UnitTests
 		[TestCase("25+2-3*10-2-3/28", 6)]
 		[TestCase("25+10-2", 2)]
 		[TestCase("25/10-2*8", 2)]
-		[TestCase("25", 0)]
+		[TestCase("25", -1)]
 		public void TryGetFirstHighPriorityOperationIndex_Success(string exp, int expectedIndex)
 		{
 			//Arrange

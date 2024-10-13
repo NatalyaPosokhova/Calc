@@ -6,7 +6,12 @@ namespace Calculator
 	{
 		public int GetFirstHighPriorityOperationIndex(string exp)
 		{
-			throw new NotImplementedException();
+			var index = exp.IndexOfAny(['*', '/']);
+
+			if(index == -1)
+				index = exp.IndexOfAny(['+', '-']);
+
+			return index;
 		}
 	}
 }
