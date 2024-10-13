@@ -4,7 +4,7 @@ namespace Calculator
 {
 	public class PriorityQualifier : IPriorityQualifier
 	{
-		public int GetHighPriorityOperationIndex(string exp)
+		public int GetFirstHighPriorityOperationIndex(string exp)
 		{
 			throw new NotImplementedException();
 		}
