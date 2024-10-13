@@ -1,8 +1,6 @@
-﻿using Calculator.Interfaces;
-
-namespace Calculator.UnitTests
+﻿namespace Calculator.UnitTests
 {
-    internal class ValidatorTests
+	internal class ValidatorTests
 	{
 		[TestCase("-1*2/3", true)]
 		[TestCase("10+(2-3)", true)]

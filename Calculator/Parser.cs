@@ -29,5 +29,10 @@ namespace Calculator
 				EndIndex = endIndex
 			};
 		}
+
+		public Expression GetPriorityOperationExpression(string exp, int priorityOpIndex)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }
