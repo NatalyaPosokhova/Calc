@@ -40,5 +40,33 @@ namespace Calculator.UnitTests
 			Assert.That(act.StartIndex, Is.EqualTo(startIndex));
 			Assert.That(act.EndIndex, Is.EqualTo(endIndex));
 		}
+
+		[TestCase("25+2-3*10-2-3/28", 6, 5, 3)]
+		[TestCase("25+10-2", 2, 0, 25)]
+		[TestCase("25/10-2*8", 2, 0, 25)]
+		[TestCase("-25/10-2*8", 2, 0, -25)]
+		public void TryGetFirstDigitFromPriorityOpExpression_Success(string exp, int priorityOpIndex, int startIndex, decimal expected)
+		{
+			//Arrange
+			//Act
+			var act = _parser.GetFirstDigitFromPriorityOpExpression(exp, startIndex, priorityOpIndex);
+
+			//Assert
+			Assert.That(act, Is.EqualTo(expected));
+		}
+
+		[TestCase("25+2-3*10-2-3/28", 6, 5, 10)]
+		[TestCase("25+10-2", 2, 0, 10)]
+		[TestCase("25/10-2*8", 2, 0, 10)]
+		[TestCase("-25/10-2*8", 2, 0, -10)]
+		public void TryGetSecondDigitFromPriorityOpExpression_Success(string exp, int priorityOpIndex, int startIndex, decimal expected)
+		{
+			//Arrange
+			//Act
+			var act = _parser.GetSecondDigitFromPriorityOpExpression(exp, startIndex, priorityOpIndex);
+
+			//Assert
+			Assert.That(act, Is.EqualTo(expected));
+		}
 	}
 }
