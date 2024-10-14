@@ -33,16 +33,17 @@ namespace Calculator
 
 		public decimal GetFirstDigitFromPriorityOpExpression(string exp, int startIndex, int priorityOpIndex)
 		{
-			throw new NotImplementedException();
+			var digitStr = exp.Substring(startIndex, priorityOpIndex - startIndex);
+			return decimal.Parse(digitStr);
 		}
-
 		public ExpressionIndexes GetPriorityOpExpressionBorders(string exp, int priorityOpIndex)
 		{
 			int startIndex = 0;
 			int endIndex = exp.Length - 1;
 
 			var index = priorityOpIndex - 1;
-			while (index >= 0 && Regex.IsMatch(exp[index].ToString(), @"\d"))
+			while (index >= 0 && 
+				(Regex.IsMatch(exp[index].ToString(), @"\d") || index == 0))
 			{
 				startIndex = index;
 				index--;
@@ -60,9 +61,9 @@ namespace Calculator
 
 		public decimal GetSecondDigitFromPriorityOpExpression(string exp, int endIndex, int priorityOpIndex)
 		{
-			throw new NotImplementedException();
+			var digitStr = exp.Substring(priorityOpIndex + 1, endIndex - priorityOpIndex);
+			return decimal.Parse(digitStr);
 		}
-
 		public string ReplaceExpressionWithResult(string exp, ExpressionIndexes indexes, decimal result)
 		{
 			throw new NotImplementedException();
