@@ -69,5 +69,21 @@ namespace Calculator.UnitTests
 			//Assert
 			Assert.That(act, Is.EqualTo(expected));
 		}
+
+		[TestCase("25+2-3*10-2-3/28", 5, 8, 30, "25+2-30-2-3/28")]
+		[TestCase("25+10-2", 0, 4, 35, "35-2")]
+		[TestCase("20/10-2*8", 0, 4, 2, "2-2*8")]
+		[TestCase("-25+2-2", 0, 4, -23, "-23-2")]
+		[TestCase("25+2-3*(10-2)-3/28", 7, 12, 8, "25+2-3*8-3/28")]
+		public void TryReplaceExpressionWithResult_Success(string exp, int startIndex, int endIndex, decimal result, string expected)
+		{
+			//Arrange
+			var indexes = new ExpressionIndexes { StartIndex = startIndex, EndIndex = endIndex };
+			//Act
+			var act = _parser.ReplaceExpressionWithResult(exp, indexes, result);
+
+			//Assert
+			Assert.That(act, Is.EqualTo(expected));
+		}
 	}
 }
