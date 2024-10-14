@@ -1,4 +1,5 @@
-﻿using Calculator.Interfaces;
+﻿using Calculator.Exceptions;
+using Calculator.Interfaces;
 
 namespace Calculator
 {

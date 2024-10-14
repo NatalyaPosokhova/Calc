@@ -4,7 +4,7 @@ namespace Calculator
 {
 	public class Parser : IParser
 	{
-		public ExpressionIndexes GetInnerExpressionWithoutBraces(string exp)
+		public ExpressionIndexes GetExpressionWithoutBracesBorders(string exp)
 		{
 			var startIndex = 0;
 			var endIndex = exp.Length - 1;
@@ -31,13 +31,18 @@ namespace Calculator
 			};
 		}
 
-		public ExpressionIndexes GetPriorityOperationExpression(string exp, int priorityOpIndex)
+		public decimal GetFirstDigitFromPriorityOpExpression(string exp, int startIndex, int priorityOpIndex)
+		{
+			throw new NotImplementedException();
+		}
+
+		public ExpressionIndexes GetPriorityOpExpressionBorders(string exp, int priorityOpIndex)
 		{
 			int startIndex = 0;
 			int endIndex = exp.Length - 1;
 
 			var index = priorityOpIndex - 1;
-			while (index >= 0 && Regex.IsMatch(exp[index].ToString(), @"\d") )
+			while (index >= 0 && Regex.IsMatch(exp[index].ToString(), @"\d"))
 			{
 				startIndex = index;
 				index--;
@@ -52,5 +57,16 @@ namespace Calculator
 
 			return new ExpressionIndexes { StartIndex = startIndex, EndIndex = endIndex };
 		}
+
+		public decimal GetSecondDigitFromPriorityOpExpression(string exp, int endIndex, int priorityOpIndex)
+		{
+			throw new NotImplementedException();
+		}
+
+		public string ReplaceExpressionWithResult(string exp, ExpressionIndexes indexes, decimal result)
+		{
+			throw new NotImplementedException();
+		}
+		
 	}
 }
