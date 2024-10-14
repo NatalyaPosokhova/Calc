@@ -2,7 +2,7 @@
 {
     public interface IParser
     {
-        public Expression GetInnerExpressionWithoutBraces(string exp);
-        public Expression GetPriorityOperationExpression(string exp, int priorityOpIndex);
+        public ExpressionIndexes GetInnerExpressionWithoutBraces(string exp);
+        public ExpressionIndexes GetPriorityOperationExpression(string exp, int priorityOpIndex);
 	}
 }

@@ -7,18 +7,18 @@ namespace Calculator
 		private readonly IParser _parser;
 		private readonly IOperationsPerformer _operationsPerformer;
 		private readonly IPriorityQualifier _priorityQualifier;
-		public Calculator()
+		public Calculator(IParser parser, IOperationsPerformer operationsPerformer, IPriorityQualifier priorityQualifier)
 		{
-			_parser = new Parser();
-			_operationsPerformer = new OperationsPerformer();
-			_priorityQualifier = new PriorityQualifier();
+			_parser = parser;
+			_operationsPerformer = operationsPerformer;
+			_priorityQualifier = priorityQualifier;
 		}
 		public decimal CalculateExpression(string exp)
 		{
 			throw new NotImplementedException();
 		}
 
-		private decimal CalculateExpressionWithoutBraces(string exp)
+		public decimal CalculateExpressionWithoutBraces(string exp)
 		{
 			throw new NotImplementedException();
 		}

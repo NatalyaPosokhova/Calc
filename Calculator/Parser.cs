@@ -4,7 +4,7 @@ namespace Calculator
 {
 	public class Parser : IParser
 	{
-		public Expression GetInnerExpressionWithoutBraces(string exp)
+		public ExpressionIndexes GetInnerExpressionWithoutBraces(string exp)
 		{
 			var startIndex = 0;
 			var endIndex = exp.Length - 1;
@@ -24,14 +24,14 @@ namespace Calculator
 				}
 			}
 
-			return new Expression
+			return new ExpressionIndexes
 			{
 				StartIndex = startIndex,
 				EndIndex = endIndex
 			};
 		}
 
-		public Expression GetPriorityOperationExpression(string exp, int priorityOpIndex)
+		public ExpressionIndexes GetPriorityOperationExpression(string exp, int priorityOpIndex)
 		{
 			int startIndex = 0;
 			int endIndex = exp.Length - 1;
@@ -50,7 +50,7 @@ namespace Calculator
 				index++;
 			}
 
-			return new Expression { StartIndex = startIndex, EndIndex = endIndex };
+			return new ExpressionIndexes { StartIndex = startIndex, EndIndex = endIndex };
 		}
 	}
 }

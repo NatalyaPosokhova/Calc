@@ -1,6 +1,6 @@
 ﻿namespace Calculator
 {
-	public struct Expression
+	public struct ExpressionIndexes
 	{
 		public int StartIndex { get; set; }
 		public int EndIndex { get; set; }
