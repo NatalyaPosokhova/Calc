@@ -21,7 +21,47 @@ namespace Calculator
 
 		public decimal CalculateExpressionWithoutBraces(string exp)
 		{
-			throw new NotImplementedException();
+			try
+			{
+				var priorityOpIndex = _priorityQualifier.GetFirstHighPriorityOperationIndex(exp);
+				if (priorityOpIndex == -1)
+					return decimal.Parse(exp);
+
+				var indexes = _parser.GetPriorityOpExpressionBorders(exp, priorityOpIndex);
+				var op = GetOperation(exp[priorityOpIndex]);
+
+				var firstDigit = _parser.GetFirstDigitFromPriorityOpExpression(exp, indexes.StartIndex, priorityOpIndex);
+				var secondDigit = _parser.GetSecondDigitFromPriorityOpExpression(exp, indexes.EndIndex, priorityOpIndex);
+
+				var res = op(firstDigit, secondDigit);
+
+				if (indexes.StartIndex == 0 && indexes.EndIndex == exp.Length - 1)
+					return res;
+
+				var newExp = _parser.ReplaceExpressionWithResult(exp, indexes, res);
+				return CalculateExpressionWithoutBraces(newExp);
+			}
+			catch (Exception ex)
+			{
+				throw new CannotCalculateExpressionException($"Возникла ошибка при вычислении выражения {exp}", ex);
+			}
+		}
+
+		private Func<decimal, decimal, decimal> GetOperation(char opSymbol)
+		{
+			switch (opSymbol)
+			{
+				case '+':
+					return _operationsPerformer.Add;
+				case '-':
+					return _operationsPerformer.Substract;
+				case '*':
+					return _operationsPerformer.Multiply;
+				case '/':
+					return _operationsPerformer.Divide;
+				default:
+					throw new ArgumentException($"Для операции {opSymbol} нет реализации.");
+			}
 		}
 	}
 }
