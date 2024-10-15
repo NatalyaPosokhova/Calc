@@ -89,7 +89,7 @@ namespace Calculator.UnitTests
 
 		[TestCase("25+2-(3*10-2)-3/28", 5, 12, true, "3*10-2")]
 		[TestCase("25+10-2", 0, 6, false, "25+10-2")]
-		[TestCase("-2.0/10-2*8", 0, 11, false, "-2.0/10-2*8")]
+		[TestCase("-2.0/10-2*8", 0, 10, false, "-2.0/10-2*8")]
 		[TestCase("25+2-(3*(10-2)-3)/28", 8, 13, true, "10-2")]
 		public void TryGetExpressionWithoutBraces_Success(string exp, int startIndex, int endIndex, bool isBraces, string expected)
 		{

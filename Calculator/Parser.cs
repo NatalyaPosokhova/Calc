@@ -53,7 +53,7 @@ namespace Calculator
 			int endIndex = exp.Length - 1;
 
 			var index = priorityOpIndex - 1;
-			while (index >= 0 && 
+			while (index >= 0 &&
 				(Regex.IsMatch(exp[index].ToString(), @"\d") || index == 0))
 			{
 				startIndex = index;
@@ -76,13 +76,16 @@ namespace Calculator
 			sb.Append(exp.Substring(0, indexes.StartIndex));
 			sb.Append(result);
 			sb.Append(exp.Substring(indexes.EndIndex + 1));
-			
+
 			return sb.ToString();
 		}
-		
+
 		public string GetExpressionWithoutBraces(string exp, ExpressionIndexes innerExp)
 		{
-			throw new NotImplementedException();
+			var expWithoutBraces = innerExp.IsBraces ?
+			   exp.Substring(innerExp.StartIndex + 1, innerExp.EndIndex - innerExp.StartIndex - 1) :
+			   exp.Substring(innerExp.StartIndex, innerExp.EndIndex - innerExp.StartIndex + 1);
+			return expWithoutBraces;
 		}
 	}
 }
