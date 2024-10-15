@@ -1,4 +1,5 @@
 ﻿using Calculator.Interfaces;
+using System.Text;
 using System.Text.RegularExpressions;
 namespace Calculator
 {
@@ -13,13 +14,13 @@ namespace Calculator
 			{
 				if (exp[i] == Constants.OpenedBrace)
 				{
-					startIndex = i + 1;
+					startIndex = i;
 					continue;
 				}
 
 				if (exp[i] == Constants.ClosedBrace)
 				{
-					endIndex = i - 1;
+					endIndex = i;
 					break;
 				}
 			}
@@ -36,6 +37,13 @@ namespace Calculator
 			var digitStr = exp.Substring(startIndex, priorityOpIndex - startIndex);
 			return decimal.Parse(digitStr);
 		}
+
+		public decimal GetSecondDigitFromPriorityOpExpression(string exp, int endIndex, int priorityOpIndex)
+		{
+			var digitStr = exp.Substring(priorityOpIndex + 1, endIndex - priorityOpIndex);
+			return decimal.Parse(digitStr);
+		}
+
 		public ExpressionIndexes GetPriorityOpExpressionBorders(string exp, int priorityOpIndex)
 		{
 			int startIndex = 0;
@@ -59,14 +67,14 @@ namespace Calculator
 			return new ExpressionIndexes { StartIndex = startIndex, EndIndex = endIndex };
 		}
 
-		public decimal GetSecondDigitFromPriorityOpExpression(string exp, int endIndex, int priorityOpIndex)
-		{
-			var digitStr = exp.Substring(priorityOpIndex + 1, endIndex - priorityOpIndex);
-			return decimal.Parse(digitStr);
-		}
 		public string ReplaceExpressionWithResult(string exp, ExpressionIndexes indexes, decimal result)
 		{
-			throw new NotImplementedException();
+			var sb = new StringBuilder();
+			sb.Append(exp.Substring(0, indexes.StartIndex));
+			sb.Append(result);
+			sb.Append(exp.Substring(indexes.EndIndex + 1));
+			
+			return sb.ToString();
 		}
 		
 	}

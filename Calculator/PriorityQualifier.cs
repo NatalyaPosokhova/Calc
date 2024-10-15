@@ -9,7 +9,7 @@ namespace Calculator
 			var index = exp.IndexOfAny(['*', '/']);
 
 			if(index == -1)
-				index = exp.IndexOfAny(['+', '-']);
+				index = exp.IndexOfAny(['+', '-'], 1);
 
 			return index;
 		}

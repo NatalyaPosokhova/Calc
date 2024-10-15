@@ -12,8 +12,8 @@ namespace Calculator.UnitTests
 			_parser = new Parser();
 		}
 
-		[TestCase("(25+(2-3)*(10-2-3))",5 ,7)]
-		[TestCase("(25+10-2)", 1, 7)]
+		[TestCase("(25+(2-3)*(10-2-3))",4 ,8)]
+		[TestCase("(25+10-2)", 0, 8)]
 		[TestCase("25+10-2", 0, 6)]
 		public void TryGetExpressionWithoutBracesBorders_Success(string exp, int startIndex, int endIndex)
 		{
