@@ -11,11 +11,12 @@ if(!Calculator.Validator.ValidateExpression(exp))
 	Console.WriteLine("Некорректное выражение");
 	return;
 }
-exp = exp.Trim();
+exp = exp.Replace(" ", "");
 
 var parser = new Parser();
 var operationsPerformer = new OperationsPerformer();
 var priorityQualifier = new PriorityQualifier();
 var calculator = new Calculator.Calculator(parser, operationsPerformer, priorityQualifier);
 var res = calculator.CalculateExpression(exp);
+
 Console.WriteLine($"Результат: {res}");

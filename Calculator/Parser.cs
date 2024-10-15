@@ -54,14 +54,14 @@ namespace Calculator
 
 			var index = priorityOpIndex - 1;
 			while (index >= 0 &&
-				(Regex.IsMatch(exp[index].ToString(), @"\d") || index == 0))
+				(Regex.IsMatch(exp[index].ToString(), @"\d|\,") || index == 0))
 			{
 				startIndex = index;
 				index--;
 			}
 
 			index = priorityOpIndex + 1;
-			while (index < exp.Length && Regex.IsMatch(exp[index].ToString(), @"\d"))
+			while (index < exp.Length && Regex.IsMatch(exp[index].ToString(), @"\d|\,"))
 			{
 				endIndex = index;
 				index++;

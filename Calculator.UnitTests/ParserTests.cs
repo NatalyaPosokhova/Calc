@@ -47,6 +47,7 @@ namespace Calculator.UnitTests
 		[TestCase("25+10-2", 2, 0, 25)]
 		[TestCase("25/10-2*8", 2, 0, 25)]
 		[TestCase("-25/10-2*8", 3, 0, -25)]
+		[TestCase("-2,5-2", 4, 0, -2.5)]
 		public void TryGetFirstDigitFromPriorityOpExpression_Success(string exp, int priorityOpIndex, int startIndex, decimal expected)
 		{
 			//Arrange
@@ -61,6 +62,7 @@ namespace Calculator.UnitTests
 		[TestCase("25+10-2", 2, 4, 10)]
 		[TestCase("25/10-2*8", 2, 4, 10)]
 		[TestCase("-25/10-2*8", 3, 5, 10)]
+		[TestCase("-2,5-2,3", 4, 7, 2.3)]
 		public void TryGetSecondDigitFromPriorityOpExpression_Success(string exp, int priorityOpIndex, int endIndex, decimal expected)
 		{
 			//Arrange
