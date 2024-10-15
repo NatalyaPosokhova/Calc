@@ -1,4 +1,5 @@
-﻿using Calculator.Interfaces;
+﻿using Calculator.Exceptions;
+using Calculator.Interfaces;
 
 namespace Calculator
 {
@@ -15,7 +16,24 @@ namespace Calculator
 		}
 		public decimal CalculateExpression(string exp)
 		{
-			throw new NotImplementedException();
+			try
+			{
+				var innerExp = _parser.GetInnerExpressionBorders(exp);
+
+				var expWithoutBraces = _parser.GetExpressionWithoutBraces(exp, innerExp);
+
+				var res = CalculateExpressionWithoutBraces(expWithoutBraces);
+
+				if (innerExp.StartIndex == 0 && innerExp.EndIndex == exp.Length - 1)
+					return res;
+
+				var newExp = _parser.ReplaceExpressionWithResult(exp, innerExp, res);
+				return CalculateExpression(newExp);
+			}
+			catch (Exception ex)
+			{
+				throw new CannotCalculateExpressionException($"Возникла ошибка при вычислении выражения {exp}", ex);
+			}
 		}
 
 		public decimal CalculateExpressionWithoutBraces(string exp)
