@@ -5,16 +5,18 @@ namespace Calculator
 {
 	public class Parser : IParser
 	{
-		public ExpressionIndexes GetExpressionWithoutBracesBorders(string exp)
+		public ExpressionIndexes GetInnerExpressionBorders(string exp)
 		{
 			var startIndex = 0;
 			var endIndex = exp.Length - 1;
+			bool isBraces = false;
 
 			for (int i = 0; i < exp.Length; i++)
 			{
 				if (exp[i] == Constants.OpenedBrace)
 				{
 					startIndex = i;
+					isBraces = true;
 					continue;
 				}
 
@@ -28,7 +30,8 @@ namespace Calculator
 			return new ExpressionIndexes
 			{
 				StartIndex = startIndex,
-				EndIndex = endIndex
+				EndIndex = endIndex,
+				IsBraces = isBraces
 			};
 		}
 
@@ -77,5 +80,9 @@ namespace Calculator
 			return sb.ToString();
 		}
 		
+		public string GetExpressionWithoutBraces(string exp, ExpressionIndexes innerExp)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

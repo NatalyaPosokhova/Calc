@@ -1,5 +1,4 @@
-﻿using Calculator.Exceptions;
-using Calculator.Interfaces;
+﻿using Calculator.Interfaces;
 
 namespace Calculator
 {
@@ -21,30 +20,24 @@ namespace Calculator
 
 		public decimal CalculateExpressionWithoutBraces(string exp)
 		{
-			try
-			{
-				var priorityOpIndex = _priorityQualifier.GetFirstHighPriorityOperationIndex(exp);
-				if (priorityOpIndex == -1)
-					return decimal.Parse(exp);
+			var priorityOpIndex = _priorityQualifier.GetFirstHighPriorityOperationIndex(exp);
+			if (priorityOpIndex == -1)
+				return decimal.Parse(exp);
 
-				var indexes = _parser.GetPriorityOpExpressionBorders(exp, priorityOpIndex);
-				var op = GetOperation(exp[priorityOpIndex]);
+			var indexes = _parser.GetPriorityOpExpressionBorders(exp, priorityOpIndex);
+			var op = GetOperation(exp[priorityOpIndex]);
 
-				var firstDigit = _parser.GetFirstDigitFromPriorityOpExpression(exp, indexes.StartIndex, priorityOpIndex);
-				var secondDigit = _parser.GetSecondDigitFromPriorityOpExpression(exp, indexes.EndIndex, priorityOpIndex);
+			var firstDigit = _parser.GetFirstDigitFromPriorityOpExpression(exp, indexes.StartIndex, priorityOpIndex);
+			var secondDigit = _parser.GetSecondDigitFromPriorityOpExpression(exp, indexes.EndIndex, priorityOpIndex);
 
-				var res = op(firstDigit, secondDigit);
+			var res = op(firstDigit, secondDigit);
 
-				if (indexes.StartIndex == 0 && indexes.EndIndex == exp.Length - 1)
-					return res;
+			if (indexes.StartIndex == 0 && indexes.EndIndex == exp.Length - 1)
+				return res;
 
-				var newExp = _parser.ReplaceExpressionWithResult(exp, indexes, res);
-				return CalculateExpressionWithoutBraces(newExp);
-			}
-			catch (Exception ex)
-			{
-				throw new CannotCalculateExpressionException($"Возникла ошибка при вычислении выражения {exp}", ex);
-			}
+			var newExp = _parser.ReplaceExpressionWithResult(exp, indexes, res);
+			return CalculateExpressionWithoutBraces(newExp);
+
 		}
 
 		private Func<decimal, decimal, decimal> GetOperation(char opSymbol)

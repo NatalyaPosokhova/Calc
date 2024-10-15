@@ -129,29 +129,29 @@ namespace Calculator.UnitTests
 		}
 
 
-		[Test]
-		public void TryCalculateExpressionWithoutBraces_DivideByZeroException()
-		{
-			//Arrange
-			var exp = "22+2/0";
-			var expected = 33;
-			var priorityOpIndex = 2;
-			var indexes = new ExpressionIndexes { StartIndex = 0, EndIndex = 3 };
-			var intermRes = 11;
-			var firstDigit = 22;
-			var secondDigit = 2;
+		//[Test]
+		//public void TryCalculateExpressionWithoutBraces_DivideByZeroException()
+		//{
+		//	//Arrange
+		//	var exp = "22+2/0";
+		//	var expected = 33;
+		//	var priorityOpIndex = 2;
+		//	var indexes = new ExpressionIndexes { StartIndex = 0, EndIndex = 3 };
+		//	var intermRes = 11;
+		//	var firstDigit = 22;
+		//	var secondDigit = 2;
 
-			_priorityQualifier.GetFirstHighPriorityOperationIndex(exp).Returns(priorityOpIndex);
-			_parser.GetPriorityOpExpressionBorders(exp, priorityOpIndex).Returns(indexes);
-			_parser.GetFirstDigitFromPriorityOpExpression(exp, indexes.StartIndex, priorityOpIndex).Returns(firstDigit);
-			_parser.GetSecondDigitFromPriorityOpExpression(exp, indexes.EndIndex, priorityOpIndex).Returns(secondDigit);
-			_operationsPerformer.Divide(firstDigit, secondDigit).Returns(intermRes);
-			_operationsPerformer.When(x => x.Divide(firstDigit, secondDigit))
-				.Do(x => { throw new System.DivideByZeroException("", null); });
+		//	_priorityQualifier.GetFirstHighPriorityOperationIndex(exp).Returns(priorityOpIndex);
+		//	_parser.GetPriorityOpExpressionBorders(exp, priorityOpIndex).Returns(indexes);
+		//	_parser.GetFirstDigitFromPriorityOpExpression(exp, indexes.StartIndex, priorityOpIndex).Returns(firstDigit);
+		//	_parser.GetSecondDigitFromPriorityOpExpression(exp, indexes.EndIndex, priorityOpIndex).Returns(secondDigit);
+		//	_operationsPerformer.Divide(firstDigit, secondDigit).Returns(intermRes);
+		//	_operationsPerformer.When(x => x.Divide(firstDigit, secondDigit))
+		//		.Do(x => { throw new System.DivideByZeroException("", null); });
 		
-			//Act
-			//Assert
-			Assert.Throws<CannotCalculateExpressionException>(() => _calculator.CalculateExpressionWithoutBraces(exp));
-		}
+		//	//Act
+		//	//Assert
+		//	Assert.Throws<CannotCalculateExpressionException>(() => _calculator.CalculateExpressionWithoutBraces(exp));
+		//}
 	}
 }

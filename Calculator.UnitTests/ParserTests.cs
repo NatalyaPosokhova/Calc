@@ -12,18 +12,19 @@ namespace Calculator.UnitTests
 			_parser = new Parser();
 		}
 
-		[TestCase("(25+(2-3)*(10-2-3))",4 ,8)]
-		[TestCase("(25+10-2)", 0, 8)]
-		[TestCase("25+10-2", 0, 6)]
-		public void TryGetExpressionWithoutBracesBorders_Success(string exp, int startIndex, int endIndex)
+		[TestCase("(25+(2-3)*(10-2-3))",4 ,8, true)]
+		[TestCase("(25+10-2)", 0, 8, true)]
+		[TestCase("25+10-2", 0, 6, false)]
+		public void TryGetInnerExpressionBorders_Success(string exp, int startIndex, int endIndex, bool isBraces)
 		{
 			//Arrange
 			//Act
-			var act = _parser.GetExpressionWithoutBracesBorders(exp);
+			var act = _parser.GetInnerExpressionBorders(exp);
 
 			//Assert
 			Assert.That(act.StartIndex, Is.EqualTo(startIndex));
 			Assert.That(act.EndIndex, Is.EqualTo(endIndex));
+			Assert.That(act.IsBraces, Is.EqualTo(isBraces));
 		}
 
  		[TestCase("25+2-3*10-2-3/28", 6, 5, 8)]
@@ -81,6 +82,21 @@ namespace Calculator.UnitTests
 			var indexes = new ExpressionIndexes { StartIndex = startIndex, EndIndex = endIndex };
 			//Act
 			var act = _parser.ReplaceExpressionWithResult(exp, indexes, result);
+
+			//Assert
+			Assert.That(act, Is.EqualTo(expected));
+		}
+
+		[TestCase("25+2-(3*10-2)-3/28", 5, 12, true, "3*10-2")]
+		[TestCase("25+10-2", 0, 6, false, "25+10-2")]
+		[TestCase("-2.0/10-2*8", 0, 11, false, "-2.0/10-2*8")]
+		[TestCase("25+2-(3*(10-2)-3)/28", 8, 13, true, "10-2")]
+		public void TryGetExpressionWithoutBraces_Success(string exp, int startIndex, int endIndex, bool isBraces, string expected)
+		{
+			//Arrange
+			var indexes = new ExpressionIndexes { StartIndex = startIndex, EndIndex = endIndex, IsBraces = isBraces};
+			//Act
+			var act = _parser.GetExpressionWithoutBraces(exp, indexes);
 
 			//Assert
 			Assert.That(act, Is.EqualTo(expected));
