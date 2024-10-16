@@ -3,17 +3,8 @@ using Calculator.Interfaces;
 
 namespace Calculator
 {
-	public class Calculator
-	{
-		private readonly IParser _parser;
-		private readonly IOperationsPerformer _operationsPerformer;
-		private readonly IPriorityQualifier _priorityQualifier;
-		public Calculator(IParser parser, IOperationsPerformer operationsPerformer, IPriorityQualifier priorityQualifier)
-		{
-			_parser = parser;
-			_operationsPerformer = operationsPerformer;
-			_priorityQualifier = priorityQualifier;
-		}
+	public class Calculator(IParser _parser, IOperationsPerformer _operationsPerformer, IPriorityQualifier _priorityQualifier)
+	{		
 		public decimal CalculateExpression(string exp)
 		{
 			try
@@ -60,19 +51,14 @@ namespace Calculator
 
 		private Func<decimal, decimal, decimal> GetOperation(char opSymbol)
 		{
-			switch (opSymbol)
+			return opSymbol switch
 			{
-				case '+':
-					return _operationsPerformer.Add;
-				case '-':
-					return _operationsPerformer.Substract;
-				case '*':
-					return _operationsPerformer.Multiply;
-				case '/':
-					return _operationsPerformer.Divide;
-				default:
-					throw new ArgumentException($"Для операции {opSymbol} нет реализации.");
-			}
+				'+' => _operationsPerformer.Add,
+				'-' => _operationsPerformer.Substract,
+				'*' => _operationsPerformer.Multiply,
+				'/' => _operationsPerformer.Divide,
+				_ => throw new ArgumentException($"Для операции {opSymbol} нет реализации."),
+			};
 		}
 	}
 }
