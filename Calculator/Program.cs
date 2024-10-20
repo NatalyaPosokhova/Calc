@@ -14,9 +14,8 @@ if(!Calculator.Validator.ValidateExpression(exp))
 exp = exp.Replace(" ", "");
 
 var parser = new Parser();
-var operationsPerformer = new OperationsPerformer();
 var priorityQualifier = new PriorityQualifier();
-var calculator = new Calculator.Calculator(parser, operationsPerformer, priorityQualifier);
+var calculator = new Calculator.Calculator(parser, priorityQualifier);
 var res = calculator.CalculateExpression(exp);
 
 Console.WriteLine($"Результат: {res}");

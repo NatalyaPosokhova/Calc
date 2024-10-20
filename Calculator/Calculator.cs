@@ -3,8 +3,28 @@ using Calculator.Interfaces;
 
 namespace Calculator
 {
-	public class Calculator(IParser _parser, IOperationsPerformer _operationsPerformer, IPriorityQualifier _priorityQualifier)
-	{		
+	public class Calculator
+	{
+		private readonly Dictionary<char, IOperation> _operations;
+		private readonly IParser _parser;
+		private readonly IPriorityQualifier _priorityQualifier;
+		public Calculator(IParser parser, IPriorityQualifier priorityQualifier)
+		{
+			_parser = parser;
+			_priorityQualifier = priorityQualifier;
+
+			var types = AppDomain.CurrentDomain.GetAssemblies()
+				.SelectMany(s => s.GetTypes())
+				.Where(p => typeof(IOperation).IsAssignableFrom(p) && !p.IsInterface);
+
+			_operations = new Dictionary<char, IOperation>();
+			foreach (var type in types)
+			{
+				var obj = (IOperation)Activator.CreateInstance(type);
+				_operations.Add(obj.Symbol, obj);
+			}
+		}
+
 		public decimal CalculateExpression(string exp)
 		{
 			try
@@ -34,31 +54,18 @@ namespace Calculator
 				return decimal.Parse(exp);
 
 			var indexes = _parser.GetPriorityOpExpressionBorders(exp, priorityOpIndex);
-			var op = GetOperation(exp[priorityOpIndex]);
+			_operations.TryGetValue(exp[priorityOpIndex], out var op);
 
 			var firstDigit = _parser.GetFirstDigitFromPriorityOpExpression(exp, indexes.StartIndex, priorityOpIndex);
 			var secondDigit = _parser.GetSecondDigitFromPriorityOpExpression(exp, indexes.EndIndex, priorityOpIndex);
 
-			var res = op(firstDigit, secondDigit);
+			var res = op.Execute(firstDigit, secondDigit);
 
 			if (indexes.StartIndex == 0 && indexes.EndIndex == exp.Length - 1)
 				return res;
 
 			var newExp = _parser.ReplaceExpressionWithResult(exp, indexes, res);
 			return CalculateExpressionWithoutBraces(newExp);
-
-		}
-
-		private Func<decimal, decimal, decimal> GetOperation(char opSymbol)
-		{
-			return opSymbol switch
-			{
-				'+' => _operationsPerformer.Add,
-				'-' => _operationsPerformer.Substract,
-				'*' => _operationsPerformer.Multiply,
-				'/' => _operationsPerformer.Divide,
-				_ => throw new ArgumentException($"Для операции {opSymbol} нет реализации."),
-			};
 		}
 	}
 }

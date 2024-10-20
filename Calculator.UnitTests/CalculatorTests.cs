@@ -1,7 +1,6 @@
 using Calculator.Exceptions;
 using Calculator.Interfaces;
 using NSubstitute;
-using System;
 
 namespace Calculator.UnitTests
 {
@@ -9,15 +8,13 @@ namespace Calculator.UnitTests
 	{
 		private Calculator _calculator;
 		private IParser _parser;
-		private IOperationsPerformer _operationsPerformer;
 		private IPriorityQualifier _priorityQualifier;
 		[SetUp]
 		public void Setup()
 		{
 			_parser = Substitute.For<IParser>();
-			_operationsPerformer = Substitute.For<IOperationsPerformer>();
 			_priorityQualifier = Substitute.For<IPriorityQualifier>();
-			_calculator = new Calculator(_parser, _operationsPerformer, _priorityQualifier);
+			_calculator = new Calculator(_parser, _priorityQualifier);
 		}
 
 		[Test]
@@ -37,7 +34,6 @@ namespace Calculator.UnitTests
 			_parser.GetPriorityOpExpressionBorders(exp, priorityOpIndex).Returns(indexes);
 			_parser.GetFirstDigitFromPriorityOpExpression(exp, indexes.StartIndex, priorityOpIndex).Returns(firstDigit);
 			_parser.GetSecondDigitFromPriorityOpExpression(exp, indexes.EndIndex, priorityOpIndex).Returns(secondDigit);
-			_operationsPerformer.Add(firstDigit, secondDigit).Returns(intermRes);
 			_parser.ReplaceExpressionWithResult(exp, indexes, intermRes).Returns(newExp);
 
 
@@ -47,7 +43,6 @@ namespace Calculator.UnitTests
 			_parser.GetPriorityOpExpressionBorders(newExp, priorityOpIndex).Returns(indexes);
 			_parser.GetFirstDigitFromPriorityOpExpression(newExp, indexes.StartIndex, priorityOpIndex).Returns(firstDigit);
 			_parser.GetSecondDigitFromPriorityOpExpression(newExp, indexes.EndIndex, priorityOpIndex).Returns(secondDigit);
-			_operationsPerformer.Substract(firstDigit, secondDigit).Returns(expected);
 
 			//Act
 			var act = _calculator.CalculateExpressionWithoutBraces(exp);
@@ -73,7 +68,6 @@ namespace Calculator.UnitTests
 			_parser.GetPriorityOpExpressionBorders(exp, priorityOpIndex).Returns(indexes);
 			_parser.GetFirstDigitFromPriorityOpExpression(exp, indexes.StartIndex, priorityOpIndex).Returns(firstDigit);
 			_parser.GetSecondDigitFromPriorityOpExpression(exp, indexes.EndIndex, priorityOpIndex).Returns(secondDigit);
-			_operationsPerformer.Multiply(firstDigit, secondDigit).Returns(intermRes);
 			_parser.ReplaceExpressionWithResult(exp, indexes, intermRes).Returns(newExp);
 
 			priorityOpIndex = 2;
@@ -84,7 +78,6 @@ namespace Calculator.UnitTests
 			_parser.GetPriorityOpExpressionBorders(newExp, priorityOpIndex).Returns(indexes);
 			_parser.GetFirstDigitFromPriorityOpExpression(newExp, indexes.StartIndex, priorityOpIndex).Returns(firstDigit);
 			_parser.GetSecondDigitFromPriorityOpExpression(newExp, indexes.EndIndex, priorityOpIndex).Returns(secondDigit);
-			_operationsPerformer.Add(firstDigit, secondDigit).Returns(expected);
 
 			//Act
 			var act = _calculator.CalculateExpressionWithoutBraces(exp);
@@ -111,7 +104,6 @@ namespace Calculator.UnitTests
 			_parser.GetPriorityOpExpressionBorders(exp, priorityOpIndex).Returns(indexes);
 			_parser.GetFirstDigitFromPriorityOpExpression(exp, indexes.StartIndex, priorityOpIndex).Returns(firstDigit);
 			_parser.GetSecondDigitFromPriorityOpExpression(exp, indexes.EndIndex, priorityOpIndex).Returns(secondDigit);
-			_operationsPerformer.Divide(firstDigit, secondDigit).Returns(intermRes);
 			_parser.ReplaceExpressionWithResult(exp, indexes, intermRes).Returns(newExp);
 
 			firstDigit = 11;
@@ -120,7 +112,6 @@ namespace Calculator.UnitTests
 			_parser.GetPriorityOpExpressionBorders(newExp, priorityOpIndex).Returns(indexes);
 			_parser.GetFirstDigitFromPriorityOpExpression(newExp, indexes.StartIndex, priorityOpIndex).Returns(firstDigit);
 			_parser.GetSecondDigitFromPriorityOpExpression(newExp, indexes.EndIndex, priorityOpIndex).Returns(secondDigit);
-			_operationsPerformer.Multiply(firstDigit, secondDigit).Returns(expected);
 
 			//Act
 			var act = _calculator.CalculateExpressionWithoutBraces(exp);
@@ -151,7 +142,6 @@ namespace Calculator.UnitTests
 			_parser.GetPriorityOpExpressionBorders(expWithoutBraces, priorityOpIndex).Returns(indexes2);
 			_parser.GetFirstDigitFromPriorityOpExpression(expWithoutBraces, indexes2.StartIndex, priorityOpIndex).Returns(firstDigit);
 			_parser.GetSecondDigitFromPriorityOpExpression(expWithoutBraces, indexes2.EndIndex, priorityOpIndex).Returns(secondDigit);
-			_operationsPerformer.Add(firstDigit, secondDigit).Returns(intermRes);
 
 			newExp = "25+2*9";
 			priorityOpIndex = 4;
@@ -169,7 +159,6 @@ namespace Calculator.UnitTests
 			_parser.GetPriorityOpExpressionBorders(newExp, priorityOpIndex).Returns(indexes4);
 			_parser.GetFirstDigitFromPriorityOpExpression(newExp, indexes4.StartIndex, priorityOpIndex).Returns(firstDigit);
 			_parser.GetSecondDigitFromPriorityOpExpression(newExp, indexes4.EndIndex, priorityOpIndex).Returns(secondDigit);
-			_operationsPerformer.Multiply(firstDigit, secondDigit).Returns(intermRes);
 
 			var newExp2 = "25+18";
 			_parser.ReplaceExpressionWithResult(newExp, indexes4, intermRes).Returns(newExp2);
@@ -182,7 +171,6 @@ namespace Calculator.UnitTests
 			_parser.GetPriorityOpExpressionBorders(newExp2, priorityOpIndex).Returns(indexes5);
 			_parser.GetFirstDigitFromPriorityOpExpression(newExp2, indexes5.StartIndex, priorityOpIndex).Returns(firstDigit);
 			_parser.GetSecondDigitFromPriorityOpExpression(newExp2, indexes5.EndIndex, priorityOpIndex).Returns(secondDigit);
-			_operationsPerformer.Add(firstDigit, secondDigit).Returns(expected);
 
 			//Act
 			var act = _calculator.CalculateExpression(exp);
@@ -209,8 +197,6 @@ namespace Calculator.UnitTests
 			_parser.GetPriorityOpExpressionBorders(exp, priorityOpIndex).Returns(indexes2);
 			_parser.GetFirstDigitFromPriorityOpExpression(exp, indexes2.StartIndex, priorityOpIndex).Returns(firstDigit);
 			_parser.GetSecondDigitFromPriorityOpExpression(exp, indexes2.EndIndex, priorityOpIndex).Returns(secondDigit);
-			_operationsPerformer.When(x => x.Divide(firstDigit, secondDigit))
-				.Do(x => { throw new System.DivideByZeroException("", null); });
 
 			//Act
 			//Assert
