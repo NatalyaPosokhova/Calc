@@ -84,7 +84,7 @@ namespace Calculator
 		{
 			var expWithoutBraces = innerExp.IsBraces ?
 			   exp.Substring(innerExp.StartIndex + 1, innerExp.EndIndex - innerExp.StartIndex - 1) :
-			   exp.Substring(innerExp.StartIndex, innerExp.EndIndex - innerExp.StartIndex + 1);
+			   exp;
 			return expWithoutBraces;
 		}
 	}
