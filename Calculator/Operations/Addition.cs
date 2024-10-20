@@ -6,6 +6,8 @@ namespace Calculator.Operations
 	{
 		public char Symbol => '+';
 
+		public int Weight => 1;
+
 		public decimal Execute(decimal a, decimal b) => a + b;
 	}
 }
