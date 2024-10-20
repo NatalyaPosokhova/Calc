@@ -6,9 +6,6 @@ namespace Calculator.Operations
 	{
 		public char Symbol => '-';
 
-		public decimal Execute(decimal a, decimal b)
-		{
-			throw new NotImplementedException();
-		}
+		public decimal Execute(decimal a, decimal b) => a - b;
 	}
 }
