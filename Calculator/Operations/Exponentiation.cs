@@ -8,6 +8,14 @@ namespace Calculator.Operations
 
 		public int Weight => 5;
 
-		public decimal Execute(decimal a, decimal b) => throw new NotImplementedException();
+		public decimal Execute(decimal a, decimal b)
+		{
+			decimal result = 1;
+			for (int i = 0; i < b; i++)
+			{
+				result *= a;
+			}
+			return result;
+		}
 	}
 }
