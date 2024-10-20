@@ -3,16 +3,13 @@ using Calculator.Interfaces;
 
 namespace Calculator
 {
-	public class Calculator
+	public class Calculator(IParser _parser, IPriorityQualifier _priorityQualifier)
 	{
-		private readonly Dictionary<char, IOperation> _operations;
-		private readonly IParser _parser;
-		private readonly IPriorityQualifier _priorityQualifier;
-		public Calculator(IParser parser, IPriorityQualifier priorityQualifier)
-		{
-			_parser = parser;
-			_priorityQualifier = priorityQualifier;
+		private static Dictionary<char, IOperation> _operations;
+		public static Dictionary<char, IOperation> Operations => _operations;
 
+		static Calculator()
+		{
 			var types = AppDomain.CurrentDomain.GetAssemblies()
 				.SelectMany(s => s.GetTypes())
 				.Where(p => typeof(IOperation).IsAssignableFrom(p) && !p.IsInterface);

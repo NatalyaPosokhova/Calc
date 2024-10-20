@@ -10,17 +10,13 @@ namespace Calculator.Checkers
 		public override bool ValidateString(string exp)
 		{
 			var sb = new StringBuilder(Constants.AllowedSymbols);
+			var operations = Calculator.Operations.Values;
 
-			var types = AppDomain.CurrentDomain.GetAssemblies()
-				.SelectMany(s => s.GetTypes())
-				.Where(p => typeof(IOperation).IsAssignableFrom(p) && !p.IsInterface);
-
-			foreach (var type in types)
+			foreach (var op in operations)
 			{
-				var obj = (IOperation)Activator.CreateInstance(type);
 				sb.Append('|');
 				sb.Append('\\');
-				sb.Append(obj.Symbol);
+				sb.Append(op.Symbol);
 			}
 
 			if (!exp.All(ch => Regex.IsMatch(ch.ToString(), sb.ToString())))

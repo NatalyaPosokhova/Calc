@@ -11,12 +11,7 @@ namespace Calculator
 			.SelectMany(s => s.GetTypes())
 			.Where(p => typeof(IOperation).IsAssignableFrom(p) && !p.IsInterface);
 
-			var operations = new List<IOperation>();
-			foreach (var type in types)
-			{
-				var obj = (IOperation)Activator.CreateInstance(type);
-				operations.Add(obj);
-			}
+			var operations = Calculator.Operations.Values;
 			_highToLowOperations = operations
 				.GroupBy(op => op.Weight)
 				.OrderByDescending(op => op.Key);
